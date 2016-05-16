@@ -1,24 +1,31 @@
-import dashjsLib from 'dashjs/dist/dash.all.debug.js';
+import dashjsLib from 'dashjs';
 const  playerID = 'video-player';
 
 export default class dashJS {
 
-  constructor() {
+  constructor(safeApply) {
+    "ngInject";
 
+    this.safeApply = safeApply;
     this.dashjs = dashjsLib;
-    this.player = dashjsLib.MediaPlayer().create();
-    this.visible = true;
-
-    /*setInterval(() => {
-      console.log('service this.visible', this.visible);
-    }, 1000);*/
+    this.visible = false;
   }
 
   init(url, autoPlay = false) {
+    this.player = this.dashjs.MediaPlayer().create();
     this.player.initialize(document.getElementById(playerID), url, autoPlay);
   }
 
-  toggleVisibility() {
-    this.visible = !this.visible;
+  setVisible(visible) {
+      this.visible = visible;
+      this.safeApply();
   }
+
+  close() {
+    this.player.reset();
+    this.setVisible(false);
+  }
+
+
+
 }
