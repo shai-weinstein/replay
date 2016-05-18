@@ -19,7 +19,7 @@ build:
 #   - cp -af node_modules /drone/
    - cp Dockerfile Dockerfile-development
    - echo "ENV NODE_ENV development" >> Dockerfile-development
-   - cat Dockerfile-develop
+   - cat Dockerfile-development
 
 publish:
   docker:
