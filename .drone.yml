@@ -17,7 +17,7 @@ build:
 #   - cp -a /drone/node_modules .
    - npm install -q
 #   - cp -af node_modules /drone/
-   - cp Dockerfile Dockerfile-develop
+   - cp Dockerfile Dockerfile-development
    - echo "ENV NODE_ENV development" >> Dockerfile-development
    - cat Dockerfile-develop
 
