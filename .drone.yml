@@ -1,22 +1,25 @@
 branches:
   - develop
 
-cache:
-  mount:
-   - /drone/node_modules
-   - /drone/npm
-   - /drone/usr_local
+#cache:
+#  mount:
+#   - /drone/node_modules
+#   - /drone/npm
+#   - /drone/usr_local
 
 build:
   image: node:4
   commands:
-   - mkdir -p /drone/node_modules /drone/npm /drone/usr_local
-   - ln -snf /drone/usr_local /usr/local
-   - npm update -g gulp karma karma-cli webpack
-   - ln -snf /drone/npm /root/.npm
-   - cp -a /drone/node_modules .
+#   - mkdir -p /drone/node_modules /drone/npm /drone/usr_local
+#   - ln -snf /drone/usr_local /usr/local
+   - npm install -g gulp karma karma-cli webpack
+#   - ln -snf /drone/npm /root/.npm
+#   - cp -a /drone/node_modules .
    - npm install -q
-   - cp -af node_modules /drone/
+#   - cp -af node_modules /drone/
+   - cp Dockerfile Dockerfile-develop
+   - echo "ENV NODE_ENV development" >> Dockerfile-development
+   - cat Dockerfile-develop
 
 publish:
   docker:
@@ -24,7 +27,7 @@ publish:
     auth: $$REGISTRY_AUTH
     repo: develt/replay
     tag: latest
-    file: Dockerfile
+    file: Dockerfile-development
     insecure: true
 
 #deploy:
