@@ -1,5 +1,5 @@
 FROM node:4
-RUN npm install -g gulp karma karma-cli webpack
+RUN npm install -q -g gulp karma karma-cli webpack
 
 RUN groupadd -r node \
     &&  useradd -r -m -g node node
