@@ -12,10 +12,10 @@ build:
   commands:
 #   - mkdir -p /drone/node_modules /drone/npm /drone/usr_local
 #   - ln -snf /drone/usr_local /usr/local
-   - npm install -q -g gulp karma karma-cli webpack
+   #- npm install -q -g gulp karma karma-cli webpack
 #   - ln -snf /drone/npm /root/.npm
 #   - cp -a /drone/node_modules .
-   - npm install -q
+   #- npm install -q
 #   - cp -af node_modules /drone/
    - cp Dockerfile Dockerfile-development
    - echo "ENV NODE_ENV development" >> Dockerfile-development
