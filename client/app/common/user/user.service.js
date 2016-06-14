@@ -1,9 +1,10 @@
 export default class UserService {
 
-  constructor(gapiLoaded, safeApply, $q, $rootScope, $state, ENV) {
+  constructor(gapiLoaded, safeApply, ENV, $q, $rootScope, $state, $window) {
     "ngInject";
 
     this.ENV = ENV;
+    this.$window = $window;
     this.$rootScope = $rootScope;
     this.$state = $state;
     this.safeApply = safeApply;
@@ -24,6 +25,7 @@ export default class UserService {
       this._stateChangeBypass = false;
       return;
     }
+
     event.preventDefault();
 
     this.authInitialize().then(() => {
@@ -54,7 +56,6 @@ export default class UserService {
       if (this.isLogged()) {
         this._finalizeLogin();
       }
-      this.attachSignin(document.querySelectorAll('.customGPlusSignIn'));
     }, (reason) => {
       this.authDefered.reject(reason);
     });
@@ -63,6 +64,11 @@ export default class UserService {
   signinChanged(signedIn) {
     var state = this.$state.current;
 
+    // remove token when logout
+    if (!signedIn) {
+      delete this.$window.sessionStorage.id_token;
+    }
+
     if (!signedIn && (state.data && state.data.access && state.data.access.requiredLogin)) {
       this.$state.go('home');
     }
@@ -70,12 +76,15 @@ export default class UserService {
 
   attachSignin(elements) {
     angular.forEach(elements, (element) => {
-      this.authInstance.attachClickHandler(element, {}, (googleUser) => {
-        this.googleUser = googleUser;
-        this._finalizeLogin();
-      }, function (error) {
-        console.error(error);
-      });
+      if (!element.classList.contains('signin-attached')) {
+        element.classList.add('signin-attached');
+        this.authInstance.attachClickHandler(element, {}, (googleUser) => {
+          this.googleUser = googleUser;
+          this._finalizeLogin();
+        }, function (error) {
+          console.error(error);
+        });
+      }
     });
   }
 
@@ -111,6 +120,7 @@ export default class UserService {
   }
 
   _finalizeLogin() {
+    this.$window.sessionStorage.id_token = this.getIdToken();
     this.isSignedIn = true;
     this.safeApply();
   }

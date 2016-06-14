@@ -1,10 +1,9 @@
-class SearchController {
+class FilterResultController {
 
-  constructor(videoService) {
+  constructor(VideoService) {
     "ngInject";
 
-    this.name = 'search';
-    this.videoSrv = videoService;
+    this.videoSrv = VideoService;
   }
 
   setActiveRow($event) {
@@ -17,9 +16,9 @@ class SearchController {
   }
 
   $onInit() {
-      this.videoSrv.query();
+    this.videoSrv.query();
   }
 
 }
 
-export default SearchController;
+export default FilterResultController;

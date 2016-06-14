@@ -1,16 +1,16 @@
-import SearchModule from './search'
-import SearchController from './search.controller';
-import SearchComponent from './search.component';
-import SearchTemplate from './search.html';
+import PlayListModule from './playList'
+import PlayListController from './playList.controller';
+import PlayListComponent from './playList.component';
+import PlayListTemplate from './playList.html';
 
-describe('Search', () => {
+describe('PlayList', () => {
   let $rootScope, makeController;
 
-  beforeEach(window.module(SearchModule.name));
+  beforeEach(window.module(PlayListModule.name));
   beforeEach(inject((_$rootScope_) => {
     $rootScope = _$rootScope_;
     makeController = () => {
-      return new SearchController();
+      return new PlayListController();
     };
   }));
 
@@ -30,16 +30,16 @@ describe('Search', () => {
     // template specs
     // tip: use regex to ensure correct bindings are used e.g., {{  }}
     it('has name in template [REMOVE]', () => {
-      expect(SearchTemplate).to.match(/{{\s?vm\.name\s?}}/g);
+      expect(PlayListTemplate).to.match(/{{\s?vm\.name\s?}}/g);
     });
   });
 
   describe('Component', () => {
       // component/directive specs
-      let component = SearchComponent;
+      let component = PlayListComponent;
 
       it('includes the intended template',() => {
-        expect(component.template).to.equal(SearchTemplate);
+        expect(component.template).to.equal(PlayListTemplate);
       });
 
       it('uses `controllerAs` syntax', () => {
@@ -47,7 +47,7 @@ describe('Search', () => {
       });
 
       it('invokes the right controller', () => {
-        expect(component.controller).to.equal(SearchController);
+        expect(component.controller).to.equal(PlayListController);
       });
   });
 });

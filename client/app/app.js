@@ -2,10 +2,11 @@ import angular from 'angular';
 import env from './config';
 import ngResource from 'angular-resource';
 import uiRouter from 'angular-ui-router';
-import commentService from './service/comment.service';
+import TokenInterceptor from './service/tokenInterceptor.service';
+import SessionRecoverer from './service/sessionRecoverer';
 import gapiLoaded from './service/gapiLoad.service';
-import videoService from './service/video.service';
-import playListService from './service/playList.service';
+import VideoService from './service/video.service';
+import PlayListService from './service/playList.service';
 import starService from './service/star.service';
 import Common from './common/common';
 import Components from './components/components';
@@ -21,18 +22,29 @@ angular.module('app', [
   Common.name,
   Components.name
 ])
-  .service({videoService})
-  .service({commentService})
-  .service({playListService})
+  .factory({TokenInterceptor})
+  .factory({SessionRecoverer})
+  .service({VideoService})
+  .service({PlayListService})
   .service({starService})
   .factory({gapiLoaded})
-  .config(($locationProvider, $mdThemingProvider) => {
+  .config(($locationProvider, $mdThemingProvider, $httpProvider) => {
     "ngInject";
 
     $locationProvider.html5Mode(true).hashPrefix('!');
 
-    $mdThemingProvider.theme('forest')
-      .primaryPalette('brown')
-      .accentPalette('green');
+    $mdThemingProvider.theme('default')
+      .primaryPalette('indigo', {
+        'default': '500',
+        //'hue-1': '300',
+        //'hue-2': '600',
+        //'hue-3': 'A100'
+      })
+      .accentPalette('pink', {
+        'default': '500'
+      });
+
+    $httpProvider.interceptors.push('SessionRecoverer');
+    $httpProvider.interceptors.push('TokenInterceptor');
   })
   .component('app', AppComponent);
